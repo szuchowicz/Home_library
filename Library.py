@@ -1,4 +1,34 @@
 from tkinter import *
+import backend
+
+
+def view_function():
+    output_text.delete(0, END)
+    for books in backend.view():
+        output_text.insert(END, books)
+
+
+def search_function():
+    search_for_author = book_author.get()
+    search_for_title = book_title.get()
+    search_for_year = book_year.get()
+    search_for_isbn = book_ISBN.get()
+
+    output_text.delete(0, END)
+    for books in backend.search(search_for_author, search_for_title, search_for_year, search_for_isbn):
+        output_text.insert(END, books)
+
+
+def add_function():
+    add_author = book_author.get()
+    add_title = book_title.get()
+    add_year = book_year.get()
+    add_isbn = book_ISBN.get()
+
+    backend.add_book(add_author, add_title, add_year, add_isbn)
+
+    output_text.delete(0, END)
+    output_text.insert(END, (add_author, add_title, add_year, add_isbn))
 
 main_window = Tk()
 main_window.title("My Library")
@@ -39,13 +69,13 @@ ISBN_entry.grid(row=1, column=3)
 
 # Buttons
 
-view_all_button = Button(main_window, text="View all", width=10)
+view_all_button = Button(main_window, text="View all", width=10, command=view_function)
 view_all_button.grid(row=2, column=3)
 
-search_button = Button(main_window, text="Search entry", width=10)
+search_button = Button(main_window, text="Search entry", width=10, command=search_function)
 search_button.grid(row=3, column=3)
 
-add_button = Button(main_window, text="Add entry", width=10)
+add_button = Button(main_window, text="Add entry", width=10, command=add_function)
 add_button.grid(row=4, column=3)
 
 update_button = Button(main_window, text="Update", width=10)
