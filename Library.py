@@ -25,11 +25,11 @@ book_title = StringVar()
 title_entry = Entry(main_window, textvariable=book_title)
 title_entry.grid(row=0, column=1)
 
-book_author=StringVar()
+book_author = StringVar()
 author_entry = Entry(main_window, textvariable=book_author)
 author_entry.grid(row=0, column=3)
 
-book_year=StringVar()
+book_year = StringVar()
 year_entry = Entry(main_window, textvariable=book_year)
 year_entry.grid(row=1, column=1)
 
@@ -68,9 +68,5 @@ output_text = Listbox(main_window, width=30, height=10, yscrollcommand=scrollbar
 output_text.grid(row=2, column=0, rowspan=6, columnspan=2)
 
 scrollbar.config(command=output_text.yview())
-
-
-
-
 
 main_window.mainloop()
