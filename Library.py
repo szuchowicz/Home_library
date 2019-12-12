@@ -1,5 +1,17 @@
 from tkinter import *
 
+
+def clean_entries():
+    title_entry.delete(0, END)
+    author_entry.delete(0, END)
+    year_entry.delete(0, END)
+    ISBN_entry.delete(0, END)
+
+
+def close_app():
+    main_window.destroy()
+
+
 main_window = Tk()
 main_window.title("My Library")
 
@@ -54,8 +66,11 @@ update_button.grid(row=5, column=3)
 delete_button = Button(main_window, text="Delete", width=10)
 delete_button.grid(row=6, column=3)
 
-exit_button = Button(main_window, text="Exit", width=10)
+exit_button = Button(main_window, text="Exit", width=10, command=close_app)
 exit_button.grid(row=7, column=3)
+
+clean_button = Button(main_window, text="Clean entries", width=10, command=clean_entries)
+clean_button.grid(row=8, column=3)
 
 # scrollbar
 
@@ -70,3 +85,6 @@ output_text.grid(row=2, column=0, rowspan=6, columnspan=2)
 scrollbar.config(command=output_text.yview())
 
 main_window.mainloop()
+
+# TODO add multiple databases possibility
+# TODO add login window
