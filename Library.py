@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.messagebox import *
 import backend
 
 
@@ -40,6 +41,48 @@ def clean_entries():
 
 def close_app():
     main_window.destroy()
+
+
+def show_selected_details(event):
+    try:
+        global selected_book
+        # get the current book details into tuple
+        index = output_text.curselection()[0]
+        selected_book = output_text.get(index)
+
+        # clean entries
+        title_entry.delete(0, END)
+        author_entry.delete(0, END)
+        year_entry.delete(0, END)
+        ISBN_entry.delete(0, END)
+
+        # Push proper details into entries
+        author_entry.insert(END, selected_book[1])
+        title_entry.insert(END, selected_book[2])
+        year_entry.insert(END, selected_book[3])
+        ISBN_entry.insert(END, selected_book[4])
+
+    except IndexError:
+        showerror("No book selected", "No book to select")
+
+
+def delete_book():
+    backend.delete_book(selected_book[0])
+
+    # Refresh output listbox
+    view_function()
+
+
+def update_book():
+    # get new details from entries
+    new_author = book_author.get()
+    new_title = book_title.get()
+    new_year = book_year.get()
+    new_isbn = book_ISBN.get()
+    backend.update_book(new_author, new_title, new_year, new_isbn, selected_book[0])
+
+    # Refresh output listbox
+    view_function()
 
 
 main_window = Tk()
@@ -90,10 +133,10 @@ search_button.grid(row=3, column=3)
 add_button = Button(main_window, text="Add entry", width=10, command=add_function)
 add_button.grid(row=4, column=3)
 
-update_button = Button(main_window, text="Update", width=10)
+update_button = Button(main_window, text="Update", width=10, command=update_book)
 update_button.grid(row=5, column=3)
 
-delete_button = Button(main_window, text="Delete", width=10)
+delete_button = Button(main_window, text="Delete", width=10, command=delete_book)
 delete_button.grid(row=6, column=3)
 
 exit_button = Button(main_window, text="Exit", width=10, command=close_app)
@@ -113,6 +156,8 @@ output_text = Listbox(main_window, width=30, height=10, yscrollcommand=scrollbar
 output_text.grid(row=2, column=0, rowspan=6, columnspan=2)
 
 scrollbar.config(command=output_text.yview())
+
+output_text.bind('<<ListboxSelect>>', show_selected_details)
 
 main_window.mainloop()
 
